@@ -2,130 +2,74 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-/* ── Inline SVG logo (replace with <img src="/logo.png"> once logo is placed) ── */
-function SebLogo({ size = 40 }: { size?: number }) {
+function SebLogo({ size = 38 }: { size?: number }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
       <div style={{
-        width: size, height: size, borderRadius: '50%', background: '#111',
-        border: '2px solid #1d6ef5', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+        width: size, height: size, borderRadius: '50%', background: '#0a0a0a',
+        border: '1.5px solid #1d6ef5', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', flexShrink: 0,
       }}>
-        <svg width={size * 0.55} height={size * 0.55} viewBox="0 0 32 18" fill="none">
-          <rect x="2" y="8" width="28" height="8" rx="3" fill="white" />
-          <rect x="7" y="4" width="14" height="7" rx="2" fill="white" />
-          <circle cx="8" cy="16" r="3" fill="#111" stroke="white" strokeWidth="1.5" />
-          <circle cx="24" cy="16" r="3" fill="#111" stroke="white" strokeWidth="1.5" />
+        <svg width={size * 0.56} height={size * 0.56} viewBox="0 0 32 18" fill="none">
+          <rect x="2" y="8" width="28" height="8" rx="3" fill="#f0f0f0" />
+          <rect x="7" y="4" width="14" height="7" rx="2" fill="#f0f0f0" />
+          <circle cx="8" cy="16" r="3" fill="#0a0a0a" stroke="#f0f0f0" strokeWidth="1.5" />
+          <circle cx="24" cy="16" r="3" fill="#0a0a0a" stroke="#f0f0f0" strokeWidth="1.5" />
         </svg>
       </div>
       <div style={{ lineHeight: 1 }}>
-        <div style={{ fontSize: size * 0.38, fontWeight: 700, color: '#fff', letterSpacing: '-0.02em' }}>SEB</div>
-        <div style={{ fontSize: size * 0.25, fontWeight: 600, color: '#1d6ef5', letterSpacing: '0.12em' }}>MÉCANIQUE</div>
+        <div style={{ fontSize: size * 0.37, fontWeight: 800, color: '#f0f0f0', letterSpacing: '-0.01em' }}>SEB</div>
+        <div style={{ fontSize: size * 0.24, fontWeight: 600, color: '#1d6ef5', letterSpacing: '0.14em' }}>MÉCANIQUE</div>
       </div>
     </div>
   )
 }
 
-/* ── Scroll reveal hook ── */
 function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right')
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') })
-    }, { threshold: 0.12 })
+    const els = document.querySelectorAll('.reveal')
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }),
+      { threshold: 0.1 }
+    )
     els.forEach(el => io.observe(el))
     return () => io.disconnect()
   }, [])
 }
 
-/* ── Sections ── */
-const NAV_LINKS = [
+const NAV = [
   { label: 'Services', href: '#services' },
   { label: 'Réalisations', href: '#projects' },
   { label: 'À propos', href: '#about' },
   { label: 'Tarifs', href: '#tarifs' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 const SERVICES = [
-  {
-    icon: '🔧',
-    title: 'Révision & entretien',
-    desc: 'Vidange, filtres, bougies, courroies — tout le nécessaire pour garder votre véhicule en parfait état.',
-    badge: 'Populaire',
-  },
-  {
-    icon: '🔬',
-    title: 'Diagnostic électronique',
-    desc: 'Lecture OBD, analyse des défauts moteur et systèmes embarqués avec outils professionnels.',
-  },
-  {
-    icon: '🛞',
-    title: 'Pneus & jantes',
-    desc: "Montage, démontage, équilibrage et stockage de pneus. Toutes dimensions, toutes marques.",
-  },
-  {
-    icon: '🛑',
-    title: 'Freins & suspension',
-    desc: 'Remplacement disques, plaquettes, étriers. Contrôle et réglage de la géométrie.',
-  },
-  {
-    icon: '⚡',
-    title: 'Préparation & performance',
-    desc: 'Reprogrammation moteur, optimisation de la cartographie, préparation circuit.',
-    badge: 'Spécialité',
-  },
-  {
-    icon: '📋',
-    title: 'Expertise & pré-contrôle',
-    desc: 'Expertise avant achat, pré-contrôle technique, bilan santé complet du véhicule.',
-  },
+  { num: '01', title: 'Révision & entretien', desc: 'Vidange, filtres, bougies, distribution — tout le préventif pour garder votre moteur en vie.' },
+  { num: '02', title: 'Diagnostic électronique', desc: 'Lecture OBD, analyse défauts, ECU — on lit ce que votre voiture essaie de vous dire.' },
+  { num: '03', title: 'Freins & suspension', desc: 'Disques, plaquettes, amortisseurs, géométrie — arrêt précis et tenue de route optimale.' },
+  { num: '04', title: 'Pneus & jantes', desc: 'Montage, équilibrage, stockage toutes saisons. Toutes dimensions, toutes marques.' },
+  { num: '05', title: 'Préparation & performance', desc: 'Reprogrammation moteur, optimisation cartographie, préparation circuit. Ma passion.' },
+  { num: '06', title: 'Expertise & pré-contrôle', desc: 'Bilan avant achat, pré-contrôle technique, rapport complet et honnête.' },
 ]
 
 const PROJECTS = [
-  {
-    title: 'Subaru WRX STI',
-    tag: 'Préparation',
-    desc: 'Stage 2+ — reprogrammation, downpipe 3\", intercooler sport, 380 ch.',
-    color: '#1a3a6e',
-  },
-  {
-    title: 'BMW M3 E46',
-    tag: 'Restauration',
-    desc: 'Révision complète moteur S54, joints de culasse, chaîne de distribution.',
-    color: '#1a1a3a',
-  },
-  {
-    title: 'Golf GTI Mk7',
-    tag: 'Stage 1',
-    desc: 'Remap ECU, filtre à air sport, ligne d\'échappement cat-back.',
-    color: '#1a3630',
-  },
-  {
-    title: 'Audi RS3 8V',
-    tag: 'Entretien',
-    desc: 'Vidange DSG, révision complète 60 000 km, remplacement injecteurs.',
-    color: '#2a1a1a',
-  },
-]
-
-const STATS = [
-  { value: '10+', label: 'années d\'expérience' },
-  { value: 'CFC', label: 'mécanicien diplômé' },
-  { value: '100%', label: 'transparent' },
-  { value: '2', label: 'ponts élévateurs' },
+  { title: 'Subaru WRX STI', year: '2024', tag: 'Stage 2+', detail: '380 ch — downpipe 3″, intercooler sport, remap', bg: '#0b1829' },
+  { title: 'BMW M3 E46', year: '2023', tag: 'Restauration', detail: 'S54 — joints culasse, chaîne distribution complète', bg: '#0f0f1e' },
+  { title: 'VW Golf GTI Mk7', year: '2024', tag: 'Stage 1', detail: '280 ch — remap ECU, filtre sport, ligne cat-back', bg: '#0f1a10' },
+  { title: 'Audi RS3 8V', year: '2023', tag: 'Entretien 60k', detail: 'Vidange DSG, injecteurs, révision complète', bg: '#1a0f0f' },
 ]
 
 const TARIFS = [
-  { service: 'Vidange huile + filtre', prix: 'dès CHF 89' },
-  { service: 'Révision complète (petite)', prix: 'dès CHF 249' },
-  { service: 'Diagnostic électronique', prix: 'dès CHF 89' },
-  { service: 'Freins avant (disques + plaquettes)', prix: 'dès CHF 280' },
-  { service: 'Pneus (montage + équilibrage × 4)', prix: 'dès CHF 80' },
-  { service: 'Expertise avant achat', prix: 'dès CHF 120' },
-  { service: 'Reprogrammation Stage 1', prix: 'sur devis' },
+  { service: 'Vidange huile + filtre', prix: 'dès CHF 89', note: 'huile synthétique incluse' },
+  { service: 'Révision complète', prix: 'dès CHF 249', note: 'petite révision' },
+  { service: 'Diagnostic électronique', prix: 'dès CHF 89', note: 'tous systèmes' },
+  { service: 'Freins avant — disques + plaquettes', prix: 'dès CHF 280', note: 'pièces + pose' },
+  { service: 'Pneus — montage + équilibrage ×4', prix: 'dès CHF 80', note: 'sans les pneus' },
+  { service: 'Expertise avant achat', prix: 'dès CHF 120', note: 'rapport écrit inclus' },
+  { service: 'Reprogrammation moteur', prix: 'sur devis', note: 'selon véhicule' },
 ]
 
-/* ── Main component ── */
 export default function Home() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -135,9 +79,9 @@ export default function Home() {
   useReveal()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const fn = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', fn, { passive: true })
+    return () => window.removeEventListener('scroll', fn)
   }, [])
 
   function handleSubmit(e: React.FormEvent) {
@@ -149,243 +93,189 @@ export default function Home() {
 
   return (
     <>
-      {/* ── NAVBAR ── */}
-      <nav
-        className={`navbar${scrolled ? ' scrolled' : ''}`}
-        style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-          padding: '0 24px', height: 64,
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          background: scrolled ? undefined : 'transparent',
-          borderBottom: scrolled ? undefined : '1px solid transparent',
-        }}
-      >
-        <a href="#" style={{ textDecoration: 'none' }}>
-          <SebLogo size={36} />
-        </a>
+      {/* NAVBAR */}
+      <nav className={`navbar${scrolled ? ' scrolled' : ''}`} style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        height: 60, padding: '0 32px', display: 'flex', alignItems: 'center',
+        justifyContent: 'space-between', background: 'transparent', borderBottom: '1px solid transparent',
+      }}>
+        <a href="#" style={{ textDecoration: 'none' }}><SebLogo size={34} /></a>
 
-        {/* Desktop nav */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }} className="hidden-mobile">
-          {NAV_LINKS.map(l => (
-            <a key={l.href} href={l.href} style={{
-              color: 'var(--t1)', fontSize: 14, fontWeight: 500, textDecoration: 'none',
-              transition: 'color 0.2s',
-            }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'white')}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 36 }} className="nav-desktop">
+          {NAV.map(l => (
+            <a key={l.href} href={l.href} style={{ color: 'var(--t1)', fontSize: 13, fontWeight: 500, textDecoration: 'none', letterSpacing: '0.02em', transition: 'color 0.15s' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--t0)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--t1)')}
             >{l.label}</a>
           ))}
           <a href="#contact" style={{
-            background: 'var(--blue)', color: 'white', padding: '9px 20px',
-            borderRadius: 100, fontSize: 13, fontWeight: 600, textDecoration: 'none',
-            transition: 'background 0.2s',
-          }}
-            onMouseEnter={e => (e.currentTarget.style.background = 'var(--blue-dark)')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'var(--blue)')}
-          >
-            Devis gratuit
-          </a>
+            background: 'var(--blue)', color: 'white', padding: '8px 18px',
+            borderRadius: 4, fontSize: 12, fontWeight: 700, textDecoration: 'none',
+            letterSpacing: '0.06em', textTransform: 'uppercase',
+          }}>Devis</a>
         </div>
 
-        {/* Mobile burger */}
-        <button
-          className="show-mobile"
-          onClick={() => setMenuOpen(v => !v)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: 'white' }}
-          aria-label="Menu"
-        >
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <button className="nav-burger" onClick={() => setMenuOpen(v => !v)}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: 'var(--t0)' }}>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             {menuOpen
-              ? <><line x1="4" y1="4" x2="18" y2="18" stroke="white" strokeWidth="2" strokeLinecap="round" /><line x1="18" y1="4" x2="4" y2="18" stroke="white" strokeWidth="2" strokeLinecap="round" /></>
-              : <><rect x="3" y="6" width="16" height="2" rx="1" fill="white" /><rect x="3" y="10" width="16" height="2" rx="1" fill="white" /><rect x="3" y="14" width="16" height="2" rx="1" fill="white" /></>
+              ? <><line x1="3" y1="3" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /><line x1="17" y1="3" x2="3" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></>
+              : <><rect x="2" y="5" width="16" height="1.5" rx="0.75" fill="currentColor" /><rect x="2" y="9.25" width="16" height="1.5" rx="0.75" fill="currentColor" /><rect x="2" y="13.5" width="16" height="1.5" rx="0.75" fill="currentColor" /></>
             }
           </svg>
         </button>
 
-        {/* Mobile menu */}
         {menuOpen && (
           <div className="mobile-menu" onClick={() => setMenuOpen(false)}>
             <SebLogo size={44} />
-            {NAV_LINKS.map(l => (
-              <a key={l.href} href={l.href} style={{ color: 'white', fontSize: 22, fontWeight: 600, textDecoration: 'none' }}>
-                {l.label}
-              </a>
-            ))}
-            <a href="#contact" style={{
-              background: 'var(--blue)', color: 'white', padding: '14px 32px',
-              borderRadius: 100, fontSize: 16, fontWeight: 600, textDecoration: 'none',
-            }}>
-              Devis gratuit
-            </a>
+            {NAV.map(l => <a key={l.href} href={l.href} style={{ color: 'var(--t0)', fontSize: 28, fontWeight: 800, textDecoration: 'none', letterSpacing: '-0.02em' }}>{l.label}</a>)}
+            <a href="#contact" style={{ background: 'var(--blue)', color: 'white', padding: '14px 36px', borderRadius: 4, fontSize: 14, fontWeight: 700, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Devis gratuit</a>
           </div>
         )}
       </nav>
 
-      {/* ── HERO ── */}
-      <section
-        className="hero-grid noise"
-        style={{
-          position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center',
-          justifyContent: 'center', overflow: 'hidden', padding: '120px 24px 80px',
-        }}
-      >
-        {/* Blobs */}
-        <div className="blob" style={{
-          position: 'absolute', width: 700, height: 700, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(29,110,245,0.18) 0%, transparent 70%)',
-          top: -100, left: -200, pointerEvents: 'none',
+      {/* HERO */}
+      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 32px 64px', position: 'relative', overflow: 'hidden' }}>
+        {/* Background grid */}
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 0,
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+          backgroundSize: '80px 80px',
         }} />
-        <div className="blob-delay" style={{
-          position: 'absolute', width: 500, height: 500, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(29,110,245,0.12) 0%, transparent 70%)',
-          bottom: 0, right: -100, pointerEvents: 'none',
-        }} />
+        {/* Blue vertical accent */}
+        <div style={{ position: 'absolute', left: 32, top: '15%', bottom: '15%', width: 1, background: 'linear-gradient(to bottom, transparent, var(--blue) 30%, var(--blue) 70%, transparent)', zIndex: 1, opacity: 0.4 }} />
+        {/* Big background text */}
+        <div style={{
+          position: 'absolute', right: -20, top: '50%', transform: 'translateY(-50%)',
+          fontSize: 'clamp(120px, 20vw, 260px)', fontWeight: 900, color: 'rgba(255,255,255,0.025)',
+          letterSpacing: '-0.06em', lineHeight: 1, userSelect: 'none', zIndex: 0, pointerEvents: 'none',
+          fontStyle: 'italic',
+        }}>GARAGE</div>
 
-        <div style={{ position: 'relative', zIndex: 2, textAlign: 'center', maxWidth: 740 }}>
-          {/* Availability badge */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 28 }}>
-            <div style={{ position: 'relative', width: 10, height: 10 }}>
-              <div className="ping" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#22c55e' }} />
-              <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#22c55e' }} />
-            </div>
-            <span style={{ color: 'var(--t1)', fontSize: 13, fontWeight: 500 }}>Disponible — Prise en charge sous 48h</span>
+        {/* Content */}
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1100, width: '100%', margin: '0 auto' }}>
+          {/* Label */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
+            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+            <span style={{ color: 'var(--t1)', fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Disponible — Prise en charge sous 48h</span>
           </div>
 
-          <h1 style={{ fontSize: 'clamp(36px, 7vw, 80px)', fontWeight: 800, lineHeight: 1.05, marginBottom: 24, letterSpacing: '-0.03em' }}>
-            La mécanique,<br />
-            <span className="text-gradient">c'est notre passion.</span>
+          {/* Headline */}
+          <h1 style={{ fontSize: 'clamp(42px, 8.5vw, 112px)', fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.04em', marginBottom: 36 }}>
+            <span style={{ display: 'block', color: 'var(--t0)' }}>Votre voiture</span>
+            <span style={{ display: 'block', color: 'var(--t0)' }}>mérite</span>
+            <span style={{ display: 'block', color: 'var(--blue)', fontStyle: 'italic' }}>mieux.</span>
           </h1>
 
-          <p style={{ fontSize: 'clamp(16px, 2.5vw, 20px)', color: 'var(--t1)', maxWidth: 540, margin: '0 auto 40px', lineHeight: 1.65 }}>
-            Mécanicien CFC indépendant depuis plus de 10 ans. Révisions, diagnostics,
-            préparations — votre voiture entre de bonnes mains.
-          </p>
-
-          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href="#contact" style={{
-              background: 'var(--blue)', color: 'white', padding: '15px 32px',
-              borderRadius: 100, fontSize: 15, fontWeight: 600, textDecoration: 'none',
-              boxShadow: '0 0 40px var(--blue-glow-strong)',
-              transition: 'background 0.2s, box-shadow 0.2s',
-              display: 'inline-block',
-            }}>
-              Demander un devis
-            </a>
-            <a href="#services" style={{
-              border: '1px solid var(--border-light)', color: 'var(--t0)', padding: '15px 32px',
-              borderRadius: 100, fontSize: 15, fontWeight: 600, textDecoration: 'none',
-              transition: 'border-color 0.2s, background 0.2s',
-              display: 'inline-block',
-            }}>
-              Nos services →
-            </a>
-          </div>
-
-          {/* Scroll indicator */}
-          <div className="scroll-indicator" style={{ marginTop: 72, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <span style={{ color: 'var(--t2)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Découvrir</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M8 3v10M4 9l4 4 4-4" stroke="var(--t2)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
-        </div>
-      </section>
-
-      {/* ── STATS ── */}
-      <div style={{ background: 'var(--bg-1)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '32px 24px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 24 }}>
-          {STATS.map((s, i) => (
-            <div key={i} className="reveal" style={{ textAlign: 'center', transitionDelay: `${i * 0.1}s` }}>
-              <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--blue)', letterSpacing: '-0.02em' }}>{s.value}</div>
-              <div style={{ fontSize: 13, color: 'var(--t1)', marginTop: 4 }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── SERVICES ── */}
-      <section id="services" style={{ padding: '100px 24px', maxWidth: 1140, margin: '0 auto' }}>
-        <div className="reveal" style={{ textAlign: 'center', marginBottom: 64 }}>
-          <span style={{ color: 'var(--blue)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Ce qu'on fait</span>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, marginTop: 12, letterSpacing: '-0.02em' }}>
-            Des services complets,<br /><span className="text-gradient">sans compromis</span>
-          </h2>
-          <p style={{ color: 'var(--t1)', marginTop: 16, fontSize: 16, maxWidth: 500, margin: '16px auto 0' }}>
-            Tout sauf la carrosserie. Révision, performance, diagnostic — on s'occupe de tout.
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
-          {SERVICES.map((s, i) => (
-            <div
-              key={i}
-              className={`service-card reveal`}
-              style={{
-                background: 'var(--bg-1)', border: '1px solid var(--border)', borderRadius: 16,
-                padding: 28, position: 'relative', transitionDelay: `${(i % 3) * 0.1}s`,
+          {/* Sub + CTA row */}
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 32 }}>
+            <p style={{ color: 'var(--t1)', fontSize: 'clamp(14px, 1.8vw, 18px)', maxWidth: 440, lineHeight: 1.7, fontWeight: 400 }}>
+              Mécanicien CFC indépendant depuis plus de 10 ans. Révisions, diagnostics, préparations — un seul artisan, une seule responsabilité.
+            </p>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <a href="#contact" style={{
+                background: 'var(--blue)', color: 'white', padding: '14px 28px',
+                borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none',
+                letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap',
+              }}>Devis gratuit</a>
+              <a href="#services" style={{
+                color: 'var(--t1)', fontSize: 13, fontWeight: 500, textDecoration: 'none',
+                letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: 6,
+                transition: 'color 0.15s',
               }}
-            >
-              {s.badge && (
-                <span style={{
-                  position: 'absolute', top: 20, right: 20,
-                  background: 'rgba(29,110,245,0.15)', color: 'var(--blue)',
-                  fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 100,
-                  letterSpacing: '0.05em',
-                }}>{s.badge}</span>
-              )}
-              <div style={{ fontSize: 28, marginBottom: 14 }}>{s.icon}</div>
-              <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 10 }}>{s.title}</h3>
-              <p style={{ color: 'var(--t1)', fontSize: 14, lineHeight: 1.65 }}>{s.desc}</p>
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--t0)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--t1)')}
+              >
+                Voir les services
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </a>
             </div>
-          ))}
+          </div>
+
+          {/* Stats inline */}
+          <div style={{ display: 'flex', gap: 0, marginTop: 64, borderTop: '1px solid var(--border)', paddingTop: 32 }}>
+            {[
+              { v: '10+', l: 'ans d\'expérience' },
+              { v: 'CFC', l: 'mécanicien diplômé' },
+              { v: '2', l: 'ponts élévateurs' },
+              { v: '100%', l: 'prix transparent' },
+            ].map((s, i) => (
+              <div key={i} style={{ flex: 1, paddingRight: 24, borderRight: i < 3 ? '1px solid var(--border)' : undefined, paddingLeft: i > 0 ? 24 : 0 }}>
+                <div style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: 'var(--t0)', letterSpacing: '-0.03em' }}>{s.v}</div>
+                <div style={{ fontSize: 11, color: 'var(--t2)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.l}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── PROJECTS ── */}
-      <section id="projects" style={{ background: 'var(--bg-1)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '100px 24px' }}>
-        <div style={{ maxWidth: 1140, margin: '0 auto' }}>
-          <div className="reveal" style={{ textAlign: 'center', marginBottom: 64 }}>
-            <span style={{ color: 'var(--blue)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Réalisations</span>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, marginTop: 12, letterSpacing: '-0.02em' }}>
-              Des projets qui parlent<br /><span className="text-gradient">d'eux-mêmes</span>
-            </h2>
+      {/* SERVICES */}
+      <section id="services" style={{ background: 'var(--bg-1)', padding: '80px 32px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div className="reveal" style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Ce qu'on fait</p>
+              <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1 }}>Services</h2>
+            </div>
+            <p style={{ color: 'var(--t1)', fontSize: 14, maxWidth: 320, lineHeight: 1.7 }}>
+              Tout sauf la carrosserie. Si votre voiture a un problème mécanique, électronique ou de performance — on le règle.
+            </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20 }}>
-            {PROJECTS.map((p, i) => (
-              <div
-                key={i}
-                className="project-card reveal"
-                style={{
-                  background: p.color, border: '1px solid var(--border)', borderRadius: 16,
-                  overflow: 'hidden', transitionDelay: `${(i % 4) * 0.1}s`, position: 'relative',
-                  minHeight: 220,
-                }}
-              >
-                {/* Gradient overlay at bottom */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%)',
-                }} />
-                {/* Top badge */}
-                <div style={{ position: 'absolute', top: 16, left: 16 }}>
-                  <span style={{
-                    background: 'rgba(29,110,245,0.2)', backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(29,110,245,0.3)', color: 'var(--blue-light)',
-                    fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 100,
-                  }}>{p.tag}</span>
+
+          <div>
+            {SERVICES.map((s, i) => (
+              <div key={i} className={`service-row reveal`} style={{ padding: '24px 0', display: 'flex', alignItems: 'center', gap: 24 }}>
+                <span className="service-num">{s.num}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 4, letterSpacing: '-0.01em' }}>{s.title}</div>
+                  <div style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.6 }}>{s.desc}</div>
                 </div>
-                {/* Car icon */}
-                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -60%)', opacity: 0.12 }}>
-                  <svg width="120" height="60" viewBox="0 0 120 60" fill="none">
-                    <rect x="10" y="28" width="100" height="22" rx="8" fill="white" />
-                    <rect x="22" y="14" width="60" height="22" rx="6" fill="white" />
-                    <circle cx="30" cy="50" r="10" fill="#333" stroke="white" strokeWidth="3" />
-                    <circle cx="90" cy="50" r="10" fill="#333" stroke="white" strokeWidth="3" />
+                <svg className="service-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PROJECTS */}
+      <section id="projects" style={{ padding: '80px 32px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div className="reveal" style={{ marginBottom: 48 }}>
+            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Réalisations</p>
+            <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em' }}>Projets récents</h2>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 2 }}>
+            {PROJECTS.map((p, i) => (
+              <div key={i} className="proj-card reveal" style={{ background: p.bg, minHeight: 280, padding: '28px 28px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                {/* Top row */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <span className="proj-tag" style={{
+                    background: 'rgba(255,255,255,0.08)', color: 'var(--t1)',
+                    fontSize: 10, fontWeight: 700, padding: '4px 10px', borderRadius: 2,
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                  }}>{p.tag}</span>
+                  <span style={{ color: 'var(--t2)', fontSize: 11, fontWeight: 500 }}>{p.year}</span>
+                </div>
+
+                {/* Car silhouette */}
+                <div style={{ display: 'flex', justifyContent: 'center', opacity: 0.15, paddingTop: 16 }}>
+                  <svg width="140" height="70" viewBox="0 0 140 70" fill="none">
+                    <rect x="10" y="32" width="120" height="26" rx="10" fill="white" />
+                    <rect x="28" y="14" width="70" height="26" rx="7" fill="white" />
+                    <circle cx="35" cy="58" r="12" fill="#222" stroke="white" strokeWidth="3" />
+                    <circle cx="105" cy="58" r="12" fill="#222" stroke="white" strokeWidth="3" />
+                    <line x1="28" y1="32" x2="28" y2="38" stroke="white" strokeWidth="1.5" />
+                    <line x1="98" y1="32" x2="98" y2="38" stroke="white" strokeWidth="1.5" />
                   </svg>
                 </div>
-                {/* Content */}
-                <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20 }}>
-                  <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 6 }}>{p.title}</div>
-                  <div style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.5 }}>{p.desc}</div>
+
+                {/* Bottom */}
+                <div>
+                  <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 6 }}>{p.title}</div>
+                  <div style={{ fontSize: 12, color: 'var(--t1)', lineHeight: 1.5 }}>{p.detail}</div>
                 </div>
               </div>
             ))}
@@ -393,211 +283,176 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ABOUT ── */}
-      <section id="about" style={{ padding: '100px 24px', maxWidth: 1140, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 64, alignItems: 'center' }}>
-          <div className="reveal-left">
-            <span style={{ color: 'var(--blue)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>À propos</span>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, marginTop: 12, marginBottom: 24, letterSpacing: '-0.02em' }}>
-              Seb, mécanicien<br /><span className="text-gradient">passionné & certifié</span>
+      {/* ABOUT */}
+      <section id="about" style={{ background: 'var(--bg-1)', padding: '80px 32px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 80, alignItems: 'center' }}>
+          <div className="reveal">
+            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>À propos</p>
+            <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 32, lineHeight: 1.05 }}>
+              Un mécanicien.<br />Un atelier.<br /><span style={{ color: 'var(--blue)', fontStyle: 'italic' }}>Zéro intermédiaire.</span>
             </h2>
             <p style={{ color: 'var(--t1)', fontSize: 15, lineHeight: 1.8, marginBottom: 16 }}>
-              Fort d'un <strong style={{ color: 'white' }}>CFC de mécanicien automobile</strong> et de plus de 10 ans d'expérience dans des garages officiels et indépendants, Sébastien a fondé son propre atelier pour offrir un service <strong style={{ color: 'white' }}>honnête, transparent et de qualité</strong>.
+              Fort d'un <strong style={{ color: 'var(--t0)', fontWeight: 600 }}>CFC de mécanicien automobile</strong> et plus de 10 ans d'expérience en garages officiels et indépendants, Sébastien a ouvert son propre atelier pour faire les choses à sa façon : honnêtement.
             </p>
             <p style={{ color: 'var(--t1)', fontSize: 15, lineHeight: 1.8, marginBottom: 36 }}>
-              Avec 2 ponts élévateurs professionnels et un outillage complet, l'atelier prend en charge tous types de véhicules — des voitures de tous les jours aux préparations sportives.
+              2 ponts professionnels, outillage diagnostique complet, passion pour la mécanique haute performance. Du quotidien à la préparation sportive.
             </p>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              {['CFC Mécanicien', 'Diagnostic OBD', 'Reprogrammation', 'Géométrie'].map(tag => (
-                <span key={tag} style={{
-                  border: '1px solid var(--border-light)', color: 'var(--t1)', fontSize: 12,
-                  fontWeight: 500, padding: '6px 14px', borderRadius: 100,
-                }}>{tag}</span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {['CFC Mécanicien auto', 'Diagnostic OBD', 'Reprogrammation ECU', 'Géométrie'].map(t => (
+                <span key={t} className="chip">{t}</span>
               ))}
             </div>
           </div>
 
-          <div className="reveal-right" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {[
-              { icon: '🏆', title: 'CFC mécanicien automobile', desc: 'Diplôme fédéral suisse, formation complète et reconnue.' },
-              { icon: '🔧', title: '2 ponts élévateurs', desc: 'Atelier professionnel équipé pour tous types d\'interventions.' },
-              { icon: '💬', title: 'Devis transparent', desc: 'Prix fixés à l\'avance, pas de surprises à la facture.' },
-              { icon: '⚡', title: 'Spécialiste préparation', desc: 'Reprogrammation moteur, préparation circuit — ma passion.' },
-            ].map((c, i) => (
-              <div key={i} style={{
-                background: 'var(--bg-1)', border: '1px solid var(--border)', borderRadius: 14,
-                padding: '18px 22px', display: 'flex', gap: 16, alignItems: 'flex-start',
-                transitionDelay: `${i * 0.1}s`,
-              }}>
-                <div style={{ fontSize: 22 }}>{c.icon}</div>
-                <div>
-                  <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{c.title}</div>
-                  <div style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.5 }}>{c.desc}</div>
-                </div>
+              { label: 'Formation', value: 'CFC Mécanicien automobile, Suisse' },
+              { label: 'Expérience', value: '10+ années, garages officiels & indépendant' },
+              { label: 'Équipement', value: '2 ponts élévateurs, outil diag. multi-marques' },
+              { label: 'Spécialité', value: 'Préparation moteur, reprogrammation, performance' },
+              { label: 'Zone', value: 'Région Lausanne, Vaud' },
+            ].map((row, i) => (
+              <div key={i} style={{ display: 'flex', gap: 20, padding: '18px 0', borderBottom: '1px solid var(--border)' }}>
+                <span style={{ fontSize: 11, color: 'var(--t2)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', minWidth: 100, paddingTop: 2 }}>{row.label}</span>
+                <span style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.6 }}>{row.value}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── TARIFS ── */}
-      <section id="tarifs" style={{ background: 'var(--bg-1)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', padding: '100px 24px' }}>
-        <div style={{ maxWidth: 700, margin: '0 auto' }}>
-          <div className="reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
-            <span style={{ color: 'var(--blue)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Tarifs</span>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, marginTop: 12, letterSpacing: '-0.02em' }}>
-              Des prix <span className="text-gradient">justes & clairs</span>
-            </h2>
-            <p style={{ color: 'var(--t1)', marginTop: 16, fontSize: 15 }}>
-              Tarifs indicatifs. Devis gratuit pour chaque intervention.
-            </p>
+      {/* TARIFS */}
+      <section id="tarifs" style={{ padding: '80px 32px' }}>
+        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+          <div className="reveal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Tarifs</p>
+              <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em' }}>Prix indicatifs</h2>
+            </div>
+            <p style={{ fontSize: 13, color: 'var(--t2)' }}>Devis gratuit pour chaque intervention.</p>
           </div>
-          <div className="reveal" style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 18, overflow: 'hidden' }}>
+
+          <div className="reveal">
             {TARIFS.map((t, i) => (
               <div key={i} style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '18px 28px',
-                borderBottom: i < TARIFS.length - 1 ? '1px solid var(--border)' : undefined,
+                padding: '20px 0', borderBottom: '1px solid var(--border)', gap: 16, flexWrap: 'wrap',
               }}>
-                <span style={{ fontSize: 14, color: 'var(--t1)' }}>{t.service}</span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: t.prix === 'sur devis' ? 'var(--blue)' : 'white', whiteSpace: 'nowrap', marginLeft: 16 }}>{t.prix}</span>
+                <div>
+                  <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>{t.service}</div>
+                  <div style={{ fontSize: 11, color: 'var(--t2)', letterSpacing: '0.04em' }}>{t.note}</div>
+                </div>
+                <span style={{
+                  fontSize: 14, fontWeight: 800, color: t.prix === 'sur devis' ? 'var(--blue)' : 'var(--t0)',
+                  letterSpacing: t.prix === 'sur devis' ? '0.04em' : '-0.01em', whiteSpace: 'nowrap',
+                }}>{t.prix}</span>
               </div>
             ))}
           </div>
-          <div className="reveal" style={{ textAlign: 'center', marginTop: 32 }}>
+
+          <div className="reveal" style={{ marginTop: 36 }}>
             <a href="#contact" style={{
-              background: 'var(--blue)', color: 'white', padding: '13px 28px',
-              borderRadius: 100, fontSize: 14, fontWeight: 600, textDecoration: 'none',
-              display: 'inline-block', boxShadow: '0 0 30px var(--blue-glow)',
-            }}>
-              Demander un devis gratuit
-            </a>
+              display: 'inline-block', background: 'var(--blue)', color: 'white',
+              padding: '13px 26px', borderRadius: 4, fontSize: 12, fontWeight: 700,
+              textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
+            }}>Demander un devis gratuit</a>
           </div>
         </div>
       </section>
 
-      {/* ── CONTACT / DEVIS ── */}
-      <section id="contact" style={{ padding: '100px 24px', maxWidth: 640, margin: '0 auto' }}>
-        <div className="reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
-          <span style={{ color: 'var(--blue)', fontSize: 13, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Contact</span>
-          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 800, marginTop: 12, letterSpacing: '-0.02em' }}>
-            Votre devis <span className="text-gradient">gratuit</span>
-          </h2>
-          <p style={{ color: 'var(--t1)', marginTop: 16, fontSize: 15 }}>
-            Décrivez votre véhicule et le service souhaité — je reviens vers vous sous 24h.
-          </p>
-        </div>
-
-        {formSent ? (
-          <div className="reveal visible" style={{
-            background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)',
-            borderRadius: 16, padding: '32px', textAlign: 'center',
-          }}>
-            <div style={{ fontSize: 40, marginBottom: 12 }}>✓</div>
-            <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Message envoyé !</div>
-            <div style={{ color: 'var(--t1)', fontSize: 14 }}>Je vous recontacte dans les 24h. À bientôt !</div>
+      {/* CONTACT */}
+      <section id="contact" style={{ background: 'var(--bg-1)', padding: '80px 32px' }}>
+        <div style={{ maxWidth: 680, margin: '0 auto' }}>
+          <div className="reveal" style={{ marginBottom: 48 }}>
+            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Contact</p>
+            <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 14 }}>Votre devis</h2>
+            <p style={{ color: 'var(--t1)', fontSize: 14, lineHeight: 1.7 }}>Décrivez votre véhicule et la prestation souhaitée. Réponse garantie sous 24h.</p>
           </div>
-        ) : (
-          <form ref={formRef} onSubmit={handleSubmit} className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--t1)', marginBottom: 6, letterSpacing: '0.04em' }}>NOM *</label>
-                <input className="form-input" type="text" placeholder="Votre nom" required />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--t1)', marginBottom: 6, letterSpacing: '0.04em' }}>TÉLÉPHONE *</label>
-                <input className="form-input" type="tel" placeholder="+41 76 000 00 00" required />
-              </div>
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--t1)', marginBottom: 6, letterSpacing: '0.04em' }}>VÉHICULE *</label>
-              <input className="form-input" type="text" placeholder="Ex: VW Golf GTI 2019" required />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--t1)', marginBottom: 6, letterSpacing: '0.04em' }}>SERVICE SOUHAITÉ</label>
-              <select className="form-input" style={{ appearance: 'none', cursor: 'pointer' }}>
-                <option value="">Sélectionner un service</option>
-                <option>Révision & entretien</option>
-                <option>Diagnostic électronique</option>
-                <option>Changement de pneus</option>
-                <option>Freins & suspension</option>
-                <option>Préparation & performance</option>
-                <option>Expertise & pré-contrôle</option>
-                <option>Autre</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: 12, fontWeight: 600, color: 'var(--t1)', marginBottom: 6, letterSpacing: '0.04em' }}>MESSAGE</label>
-              <textarea
-                className="form-input"
-                placeholder="Décrivez le problème ou la prestation souhaitée…"
-                rows={4}
-                style={{ resize: 'vertical' }}
-              />
-            </div>
-            <button type="submit" style={{
-              background: 'var(--blue)', color: 'white', border: 'none', padding: '15px 32px',
-              borderRadius: 100, fontSize: 15, fontWeight: 600, cursor: 'pointer',
-              boxShadow: '0 0 30px var(--blue-glow)', transition: 'background 0.2s',
-              width: '100%',
-            }}>
-              Envoyer ma demande
-            </button>
-            <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--t2)' }}>
-              Réponse garantie sous 24h · Devis 100% gratuit & sans engagement
-            </p>
-          </form>
-        )}
 
-        {/* Contact info */}
-        <div className="reveal" style={{ marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16 }}>
-          {[
-            { icon: '📞', label: 'Téléphone', value: '+41 XX XXX XX XX' },
-            { icon: '📧', label: 'Email', value: 'contact@seb-mecanique.ch' },
-            { icon: '📍', label: 'Localisation', value: 'Région Lausanne, VD' },
-          ].map((c, i) => (
-            <div key={i} style={{
-              background: 'var(--bg-1)', border: '1px solid var(--border)', borderRadius: 12,
-              padding: '16px 20px', textAlign: 'center',
-            }}>
-              <div style={{ fontSize: 22, marginBottom: 6 }}>{c.icon}</div>
-              <div style={{ fontSize: 11, color: 'var(--t2)', letterSpacing: '0.06em', marginBottom: 4 }}>{c.label.toUpperCase()}</div>
-              <div style={{ fontSize: 13, fontWeight: 500 }}>{c.value}</div>
+          {formSent ? (
+            <div className="reveal visible" style={{ border: '1px solid rgba(34,197,94,0.3)', borderRadius: 4, padding: '40px 32px', textAlign: 'center' }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#22c55e', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Message envoyé</div>
+              <div style={{ color: 'var(--t1)', fontSize: 14 }}>Je vous recontacte dans les 24h.</div>
             </div>
-          ))}
+          ) : (
+            <form ref={formRef} onSubmit={handleSubmit} className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Nom *</label>
+                  <input className="field" type="text" placeholder="Votre nom" required />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Téléphone *</label>
+                  <input className="field" type="tel" placeholder="+41 76 000 00 00" required />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Véhicule *</label>
+                <input className="field" type="text" placeholder="Marque, modèle, année — ex: BMW M3 2019" required />
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Service</label>
+                <select className="field" style={{ appearance: 'none', cursor: 'pointer' }}>
+                  <option value="">Sélectionner</option>
+                  {SERVICES.map(s => <option key={s.num}>{s.title}</option>)}
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Message</label>
+                <textarea className="field" placeholder="Décrivez le problème ou la prestation souhaitée…" rows={4} style={{ resize: 'vertical' }} />
+              </div>
+              <button type="submit" style={{
+                background: 'var(--blue)', color: 'white', border: 'none', padding: '14px',
+                borderRadius: 4, fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                letterSpacing: '0.08em', textTransform: 'uppercase', width: '100%', marginTop: 4,
+              }}>Envoyer →</button>
+              <p style={{ fontSize: 11, color: 'var(--t2)', textAlign: 'center', letterSpacing: '0.04em' }}>
+                DEVIS GRATUIT · SANS ENGAGEMENT · RÉPONSE SOUS 24H
+              </p>
+            </form>
+          )}
+
+          <div className="reveal" style={{ marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)' }}>
+            {[
+              { icon: '↗', label: 'Téléphone', value: '+41 XX XXX XX XX' },
+              { icon: '↗', label: 'Email', value: 'contact@seb-mecanique.ch' },
+              { icon: '↗', label: 'Localisation', value: 'Région Lausanne, VD' },
+            ].map((c, i) => (
+              <div key={i} style={{ background: 'var(--bg-1)', padding: '20px 18px' }}>
+                <div style={{ fontSize: 10, color: 'var(--t2)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>{c.label}</div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--t1)' }}>{c.value}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{
-        borderTop: '1px solid var(--border)', padding: '40px 24px',
-        background: 'var(--bg-1)',
-      }}>
-        <div style={{
-          maxWidth: 1140, margin: '0 auto',
-          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 24,
-        }}>
-          <SebLogo size={32} />
-          <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-            {NAV_LINKS.map(l => (
-              <a key={l.href} href={l.href} style={{ color: 'var(--t2)', fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
+      {/* FOOTER */}
+      <footer style={{ borderTop: '1px solid var(--border)', padding: '28px 32px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+          <SebLogo size={30} />
+          <div style={{ display: 'flex', gap: 28 }}>
+            {NAV.map(l => (
+              <a key={l.href} href={l.href} style={{ color: 'var(--t2)', fontSize: 12, textDecoration: 'none', letterSpacing: '0.04em', transition: 'color 0.15s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--t1)')}
                 onMouseLeave={e => (e.currentTarget.style.color = 'var(--t2)')}
               >{l.label}</a>
             ))}
           </div>
-          <div style={{ color: 'var(--t2)', fontSize: 12 }}>
-            © {new Date().getFullYear()} Seb Mécanique — Tous droits réservés
-          </div>
+          <span style={{ color: 'var(--t2)', fontSize: 11 }}>© {new Date().getFullYear()} Seb Mécanique</span>
         </div>
       </footer>
 
-      {/* Responsive helpers */}
       <style>{`
-        @media (min-width: 769px) { .show-mobile { display: none !important; } }
-        @media (max-width: 768px) { .hidden-mobile { display: none !important; } }
-        @media (max-width: 640px) {
+        @media (min-width: 769px) { .nav-burger { display: none !important; } }
+        @media (max-width: 768px) {
+          .nav-desktop { display: none !important; }
+          .nav-burger { display: flex !important; }
+        }
+        @media (max-width: 520px) {
           form > div:first-child { grid-template-columns: 1fr !important; }
+          #contact > div > div:last-child { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </>
