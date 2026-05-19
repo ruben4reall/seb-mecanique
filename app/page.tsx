@@ -30,7 +30,7 @@ function useReveal() {
     const els = document.querySelectorAll('.reveal')
     const io = new IntersectionObserver(
       entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') }),
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     )
     els.forEach(el => io.observe(el))
     return () => io.disconnect()
@@ -96,31 +96,27 @@ export default function Home() {
       {/* NAVBAR */}
       <nav className={`navbar${scrolled ? ' scrolled' : ''}`} style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-        height: 60, padding: '0 32px', display: 'flex', alignItems: 'center',
+        height: 60, padding: '0 20px', display: 'flex', alignItems: 'center',
         justifyContent: 'space-between', background: 'transparent', borderBottom: '1px solid transparent',
       }}>
-        <a href="#" style={{ textDecoration: 'none' }}><SebLogo size={34} /></a>
+        <a href="#" style={{ textDecoration: 'none' }}><SebLogo size={32} /></a>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 36 }} className="nav-desktop">
+        <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           {NAV.map(l => (
             <a key={l.href} href={l.href} style={{ color: 'var(--t1)', fontSize: 13, fontWeight: 500, textDecoration: 'none', letterSpacing: '0.02em', transition: 'color 0.15s' }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--t0)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--t1)')}
             >{l.label}</a>
           ))}
-          <a href="#contact" style={{
-            background: 'var(--blue)', color: 'white', padding: '8px 18px',
-            borderRadius: 4, fontSize: 12, fontWeight: 700, textDecoration: 'none',
-            letterSpacing: '0.06em', textTransform: 'uppercase',
-          }}>Devis</a>
+          <a href="#contact" style={{ background: 'var(--blue)', color: 'white', padding: '8px 18px', borderRadius: 4, fontSize: 12, fontWeight: 700, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Devis</a>
         </div>
 
         <button className="nav-burger" onClick={() => setMenuOpen(v => !v)}
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, color: 'var(--t0)' }}>
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
             {menuOpen
-              ? <><line x1="3" y1="3" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /><line x1="17" y1="3" x2="3" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></>
-              : <><rect x="2" y="5" width="16" height="1.5" rx="0.75" fill="currentColor" /><rect x="2" y="9.25" width="16" height="1.5" rx="0.75" fill="currentColor" /><rect x="2" y="13.5" width="16" height="1.5" rx="0.75" fill="currentColor" /></>
+              ? <><line x1="4" y1="4" x2="18" y2="18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /><line x1="18" y1="4" x2="4" y2="18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></>
+              : <><rect x="3" y="6" width="16" height="1.5" rx="0.75" fill="currentColor" /><rect x="3" y="10.25" width="16" height="1.5" rx="0.75" fill="currentColor" /><rect x="3" y="14.5" width="16" height="1.5" rx="0.75" fill="currentColor" /></>
             }
           </svg>
         </button>
@@ -128,81 +124,54 @@ export default function Home() {
         {menuOpen && (
           <div className="mobile-menu" onClick={() => setMenuOpen(false)}>
             <SebLogo size={44} />
-            {NAV.map(l => <a key={l.href} href={l.href} style={{ color: 'var(--t0)', fontSize: 28, fontWeight: 800, textDecoration: 'none', letterSpacing: '-0.02em' }}>{l.label}</a>)}
-            <a href="#contact" style={{ background: 'var(--blue)', color: 'white', padding: '14px 36px', borderRadius: 4, fontSize: 14, fontWeight: 700, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Devis gratuit</a>
+            {NAV.map(l => <a key={l.href} href={l.href} style={{ color: 'var(--t0)', fontSize: 32, fontWeight: 900, textDecoration: 'none', letterSpacing: '-0.03em' }}>{l.label}</a>)}
+            <a href="#contact" style={{ background: 'var(--blue)', color: 'white', padding: '16px 40px', borderRadius: 4, fontSize: 14, fontWeight: 700, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Devis gratuit</a>
           </div>
         )}
       </nav>
 
       {/* HERO */}
-      <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 32px 64px', position: 'relative', overflow: 'hidden' }}>
-        {/* Background grid */}
-        <div style={{
-          position: 'absolute', inset: 0, zIndex: 0,
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
-          backgroundSize: '80px 80px',
-        }} />
-        {/* Blue vertical accent */}
-        <div style={{ position: 'absolute', left: 32, top: '15%', bottom: '15%', width: 1, background: 'linear-gradient(to bottom, transparent, var(--blue) 30%, var(--blue) 70%, transparent)', zIndex: 1, opacity: 0.4 }} />
-        {/* Big background text */}
-        <div style={{
-          position: 'absolute', right: -20, top: '50%', transform: 'translateY(-50%)',
-          fontSize: 'clamp(120px, 20vw, 260px)', fontWeight: 900, color: 'rgba(255,255,255,0.025)',
-          letterSpacing: '-0.06em', lineHeight: 1, userSelect: 'none', zIndex: 0, pointerEvents: 'none',
-          fontStyle: 'italic',
-        }}>GARAGE</div>
+      <section className="hero-section" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 20px 48px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)', backgroundSize: '70px 70px' }} />
+        <div className="hero-accent-line" style={{ position: 'absolute', left: 20, top: '15%', bottom: '15%', width: 1, background: 'linear-gradient(to bottom, transparent, var(--blue) 30%, var(--blue) 70%, transparent)', zIndex: 1, opacity: 0.35 }} />
+        <div className="hero-bg-word" style={{ position: 'absolute', right: -10, top: '50%', transform: 'translateY(-50%)', fontSize: 'clamp(80px, 20vw, 260px)', fontWeight: 900, color: 'rgba(255,255,255,0.022)', letterSpacing: '-0.06em', lineHeight: 1, userSelect: 'none', zIndex: 0, pointerEvents: 'none', fontStyle: 'italic' }}>GARAGE</div>
 
-        {/* Content */}
         <div style={{ position: 'relative', zIndex: 2, maxWidth: 1100, width: '100%', margin: '0 auto' }}>
-          {/* Label */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
-            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
-            <span style={{ color: 'var(--t1)', fontSize: 12, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Disponible — Prise en charge sous 48h</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
+            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: '#22c55e', flexShrink: 0 }} />
+            <span style={{ color: 'var(--t1)', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Disponible — Prise en charge sous 48h</span>
           </div>
 
-          {/* Headline */}
-          <h1 style={{ fontSize: 'clamp(42px, 8.5vw, 112px)', fontWeight: 900, lineHeight: 0.92, letterSpacing: '-0.04em', marginBottom: 36 }}>
+          <h1 style={{ fontSize: 'clamp(48px, 12vw, 112px)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.04em', marginBottom: 32 }}>
             <span style={{ display: 'block', color: 'var(--t0)' }}>Votre voiture</span>
             <span style={{ display: 'block', color: 'var(--t0)' }}>mérite</span>
             <span style={{ display: 'block', color: 'var(--blue)', fontStyle: 'italic' }}>mieux.</span>
           </h1>
 
-          {/* Sub + CTA row */}
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 32 }}>
-            <p style={{ color: 'var(--t1)', fontSize: 'clamp(14px, 1.8vw, 18px)', maxWidth: 440, lineHeight: 1.7, fontWeight: 400 }}>
+          <div className="hero-bottom" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+            <p style={{ color: 'var(--t1)', fontSize: 'clamp(14px, 3.5vw, 17px)', maxWidth: 400, lineHeight: 1.75, fontWeight: 400 }}>
               Mécanicien CFC indépendant depuis plus de 10 ans. Révisions, diagnostics, préparations — un seul artisan, une seule responsabilité.
             </p>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-              <a href="#contact" style={{
-                background: 'var(--blue)', color: 'white', padding: '14px 28px',
-                borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none',
-                letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap',
-              }}>Devis gratuit</a>
-              <a href="#services" style={{
-                color: 'var(--t1)', fontSize: 13, fontWeight: 500, textDecoration: 'none',
-                letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: 6,
-                transition: 'color 0.15s',
-              }}
+            <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+              <a href="#contact" style={{ background: 'var(--blue)', color: 'white', padding: '14px 24px', borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Devis gratuit</a>
+              <a href="#services" style={{ color: 'var(--t1)', fontSize: 13, fontWeight: 500, textDecoration: 'none', letterSpacing: '0.02em', display: 'flex', alignItems: 'center', gap: 6, transition: 'color 0.15s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--t0)')}
                 onMouseLeave={e => (e.currentTarget.style.color = 'var(--t1)')}
-              >
-                Voir les services
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              </a>
+              >Nos services <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
             </div>
           </div>
 
-          {/* Stats inline */}
-          <div style={{ display: 'flex', gap: 0, marginTop: 64, borderTop: '1px solid var(--border)', paddingTop: 32 }}>
+          {/* Stats */}
+          <div className="hero-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', marginTop: 48, borderTop: '1px solid var(--border)', paddingTop: 28 }}>
             {[
-              { v: '10+', l: 'ans d\'expérience' },
-              { v: 'CFC', l: 'mécanicien diplômé' },
+              { v: '10+', l: "ans d'expérience" },
+              { v: 'CFC', l: 'diplômé fédéral' },
               { v: '2', l: 'ponts élévateurs' },
               { v: '100%', l: 'prix transparent' },
             ].map((s, i) => (
-              <div key={i} style={{ flex: 1, paddingRight: 24, borderRight: i < 3 ? '1px solid var(--border)' : undefined, paddingLeft: i > 0 ? 24 : 0 }}>
-                <div style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: 'var(--t0)', letterSpacing: '-0.03em' }}>{s.v}</div>
-                <div style={{ fontSize: 11, color: 'var(--t2)', marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.l}</div>
+              <div key={i} className={`stat-item stat-${i}`} style={{ padding: '0 16px 0 0', borderRight: i < 3 ? '1px solid var(--border)' : undefined, marginLeft: i > 0 ? 16 : 0 }}>
+                <div style={{ fontSize: 'clamp(20px, 5vw, 30px)', fontWeight: 900, color: 'var(--t0)', letterSpacing: '-0.03em' }}>{s.v}</div>
+                <div style={{ fontSize: 10, color: 'var(--t2)', marginTop: 3, textTransform: 'uppercase', letterSpacing: '0.06em', lineHeight: 1.4 }}>{s.l}</div>
               </div>
             ))}
           </div>
@@ -210,27 +179,25 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <section id="services" style={{ background: 'var(--bg-1)', padding: '80px 32px' }}>
+      <section id="services" style={{ background: 'var(--bg-1)', padding: '64px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="reveal" style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
+          <div className="reveal section-header" style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 40, flexWrap: 'wrap', gap: 12 }}>
             <div>
-              <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Ce qu'on fait</p>
-              <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1 }}>Services</h2>
+              <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>Ce qu'on fait</p>
+              <h2 style={{ fontSize: 'clamp(24px, 5vw, 44px)', fontWeight: 900, letterSpacing: '-0.03em' }}>Services</h2>
             </div>
-            <p style={{ color: 'var(--t1)', fontSize: 14, maxWidth: 320, lineHeight: 1.7 }}>
-              Tout sauf la carrosserie. Si votre voiture a un problème mécanique, électronique ou de performance — on le règle.
-            </p>
+            <p style={{ color: 'var(--t1)', fontSize: 13, maxWidth: 300, lineHeight: 1.7 }}>Tout sauf la carrosserie. Si ça bouge, on s'en occupe.</p>
           </div>
 
           <div>
             {SERVICES.map((s, i) => (
-              <div key={i} className={`service-row reveal`} style={{ padding: '24px 0', display: 'flex', alignItems: 'center', gap: 24 }}>
+              <div key={i} className="service-row reveal" style={{ padding: '20px 0', display: 'flex', alignItems: 'flex-start', gap: 16 }}>
                 <span className="service-num">{s.num}</span>
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 4, letterSpacing: '-0.01em' }}>{s.title}</div>
-                  <div style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.6 }}>{s.desc}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4, letterSpacing: '-0.01em' }}>{s.title}</div>
+                  <div style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.65 }}>{s.desc}</div>
                 </div>
-                <svg className="service-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+                <svg className="service-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
@@ -240,41 +207,30 @@ export default function Home() {
       </section>
 
       {/* PROJECTS */}
-      <section id="projects" style={{ padding: '80px 32px' }}>
+      <section id="projects" style={{ padding: '64px 20px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div className="reveal" style={{ marginBottom: 48 }}>
-            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Réalisations</p>
-            <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em' }}>Projets récents</h2>
+          <div className="reveal" style={{ marginBottom: 36 }}>
+            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>Réalisations</p>
+            <h2 style={{ fontSize: 'clamp(24px, 5vw, 44px)', fontWeight: 900, letterSpacing: '-0.03em' }}>Projets récents</h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 2 }}>
+          <div className="projects-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 2 }}>
             {PROJECTS.map((p, i) => (
-              <div key={i} className="proj-card reveal" style={{ background: p.bg, minHeight: 280, padding: '28px 28px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                {/* Top row */}
+              <div key={i} className="proj-card reveal" style={{ background: p.bg, minHeight: 240, padding: '22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <span className="proj-tag" style={{
-                    background: 'rgba(255,255,255,0.08)', color: 'var(--t1)',
-                    fontSize: 10, fontWeight: 700, padding: '4px 10px', borderRadius: 2,
-                    letterSpacing: '0.08em', textTransform: 'uppercase',
-                  }}>{p.tag}</span>
+                  <span className="proj-tag" style={{ background: 'rgba(255,255,255,0.08)', color: 'var(--t1)', fontSize: 10, fontWeight: 700, padding: '4px 9px', borderRadius: 2, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{p.tag}</span>
                   <span style={{ color: 'var(--t2)', fontSize: 11, fontWeight: 500 }}>{p.year}</span>
                 </div>
-
-                {/* Car silhouette */}
-                <div style={{ display: 'flex', justifyContent: 'center', opacity: 0.15, paddingTop: 16 }}>
-                  <svg width="140" height="70" viewBox="0 0 140 70" fill="none">
+                <div style={{ display: 'flex', justifyContent: 'center', opacity: 0.12, padding: '8px 0' }}>
+                  <svg width="110" height="55" viewBox="0 0 140 70" fill="none">
                     <rect x="10" y="32" width="120" height="26" rx="10" fill="white" />
                     <rect x="28" y="14" width="70" height="26" rx="7" fill="white" />
                     <circle cx="35" cy="58" r="12" fill="#222" stroke="white" strokeWidth="3" />
                     <circle cx="105" cy="58" r="12" fill="#222" stroke="white" strokeWidth="3" />
-                    <line x1="28" y1="32" x2="28" y2="38" stroke="white" strokeWidth="1.5" />
-                    <line x1="98" y1="32" x2="98" y2="38" stroke="white" strokeWidth="1.5" />
                   </svg>
                 </div>
-
-                {/* Bottom */}
                 <div>
-                  <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 6 }}>{p.title}</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 4 }}>{p.title}</div>
                   <div style={{ fontSize: 12, color: 'var(--t1)', lineHeight: 1.5 }}>{p.detail}</div>
                 </div>
               </div>
@@ -284,114 +240,106 @@ export default function Home() {
       </section>
 
       {/* ABOUT */}
-      <section id="about" style={{ background: 'var(--bg-1)', padding: '80px 32px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 80, alignItems: 'center' }}>
-          <div className="reveal">
-            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>À propos</p>
-            <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 32, lineHeight: 1.05 }}>
-              Un mécanicien.<br />Un atelier.<br /><span style={{ color: 'var(--blue)', fontStyle: 'italic' }}>Zéro intermédiaire.</span>
-            </h2>
-            <p style={{ color: 'var(--t1)', fontSize: 15, lineHeight: 1.8, marginBottom: 16 }}>
-              Fort d'un <strong style={{ color: 'var(--t0)', fontWeight: 600 }}>CFC de mécanicien automobile</strong> et plus de 10 ans d'expérience en garages officiels et indépendants, Sébastien a ouvert son propre atelier pour faire les choses à sa façon : honnêtement.
-            </p>
-            <p style={{ color: 'var(--t1)', fontSize: 15, lineHeight: 1.8, marginBottom: 36 }}>
-              2 ponts professionnels, outillage diagnostique complet, passion pour la mécanique haute performance. Du quotidien à la préparation sportive.
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {['CFC Mécanicien auto', 'Diagnostic OBD', 'Reprogrammation ECU', 'Géométrie'].map(t => (
-                <span key={t} className="chip">{t}</span>
+      <section id="about" style={{ background: 'var(--bg-1)', padding: '64px 20px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 56, alignItems: 'start' }}>
+            <div className="reveal">
+              <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>À propos</p>
+              <h2 style={{ fontSize: 'clamp(24px, 5vw, 44px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 24, lineHeight: 1.05 }}>
+                Un mécanicien.<br />Un atelier.<br /><span style={{ color: 'var(--blue)', fontStyle: 'italic' }}>Zéro intermédiaire.</span>
+              </h2>
+              <p style={{ color: 'var(--t1)', fontSize: 14, lineHeight: 1.85, marginBottom: 14 }}>
+                Fort d'un <strong style={{ color: 'var(--t0)', fontWeight: 600 }}>CFC de mécanicien automobile</strong> et plus de 10 ans d'expérience, Sébastien a ouvert son propre atelier pour faire les choses à sa façon : honnêtement.
+              </p>
+              <p style={{ color: 'var(--t1)', fontSize: 14, lineHeight: 1.85, marginBottom: 28 }}>
+                2 ponts professionnels, outillage diagnostique complet, passion pour la mécanique haute performance.
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {['CFC Mécanicien', 'Diagnostic OBD', 'Remap ECU', 'Géométrie'].map(t => (
+                  <span key={t} className="chip">{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="reveal">
+              {[
+                { label: 'Formation', value: 'CFC Mécanicien automobile' },
+                { label: 'Expérience', value: '10+ années, garages officiels & indépendant' },
+                { label: 'Équipement', value: '2 ponts, outil diag. multi-marques' },
+                { label: 'Spécialité', value: 'Préparation moteur, reprogrammation' },
+                { label: 'Zone', value: 'Région Lausanne, Vaud' },
+              ].map((row, i) => (
+                <div key={i} style={{ padding: '16px 0', borderBottom: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <span style={{ fontSize: 10, color: 'var(--t2)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{row.label}</span>
+                  <span style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.6 }}>{row.value}</span>
+                </div>
               ))}
             </div>
-          </div>
-
-          <div className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {[
-              { label: 'Formation', value: 'CFC Mécanicien automobile, Suisse' },
-              { label: 'Expérience', value: '10+ années, garages officiels & indépendant' },
-              { label: 'Équipement', value: '2 ponts élévateurs, outil diag. multi-marques' },
-              { label: 'Spécialité', value: 'Préparation moteur, reprogrammation, performance' },
-              { label: 'Zone', value: 'Région Lausanne, Vaud' },
-            ].map((row, i) => (
-              <div key={i} style={{ display: 'flex', gap: 20, padding: '18px 0', borderBottom: '1px solid var(--border)' }}>
-                <span style={{ fontSize: 11, color: 'var(--t2)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', minWidth: 100, paddingTop: 2 }}>{row.label}</span>
-                <span style={{ fontSize: 13, color: 'var(--t1)', lineHeight: 1.6 }}>{row.value}</span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
 
       {/* TARIFS */}
-      <section id="tarifs" style={{ padding: '80px 32px' }}>
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div className="reveal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
+      <section id="tarifs" style={{ padding: '64px 20px' }}>
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <div className="reveal" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 40, flexWrap: 'wrap', gap: 12 }}>
             <div>
-              <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Tarifs</p>
-              <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em' }}>Prix indicatifs</h2>
+              <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>Tarifs</p>
+              <h2 style={{ fontSize: 'clamp(24px, 5vw, 44px)', fontWeight: 900, letterSpacing: '-0.03em' }}>Prix indicatifs</h2>
             </div>
-            <p style={{ fontSize: 13, color: 'var(--t2)' }}>Devis gratuit pour chaque intervention.</p>
+            <p style={{ fontSize: 12, color: 'var(--t2)' }}>Devis gratuit pour chaque intervention.</p>
           </div>
 
           <div className="reveal">
             {TARIFS.map((t, i) => (
-              <div key={i} style={{
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '20px 0', borderBottom: '1px solid var(--border)', gap: 16, flexWrap: 'wrap',
-              }}>
-                <div>
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 0', borderBottom: '1px solid var(--border)', gap: 12, flexWrap: 'wrap' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2 }}>{t.service}</div>
-                  <div style={{ fontSize: 11, color: 'var(--t2)', letterSpacing: '0.04em' }}>{t.note}</div>
+                  <div style={{ fontSize: 11, color: 'var(--t2)', letterSpacing: '0.03em' }}>{t.note}</div>
                 </div>
-                <span style={{
-                  fontSize: 14, fontWeight: 800, color: t.prix === 'sur devis' ? 'var(--blue)' : 'var(--t0)',
-                  letterSpacing: t.prix === 'sur devis' ? '0.04em' : '-0.01em', whiteSpace: 'nowrap',
-                }}>{t.prix}</span>
+                <span style={{ fontSize: 14, fontWeight: 800, color: t.prix === 'sur devis' ? 'var(--blue)' : 'var(--t0)', whiteSpace: 'nowrap', flexShrink: 0 }}>{t.prix}</span>
               </div>
             ))}
           </div>
 
-          <div className="reveal" style={{ marginTop: 36 }}>
-            <a href="#contact" style={{
-              display: 'inline-block', background: 'var(--blue)', color: 'white',
-              padding: '13px 26px', borderRadius: 4, fontSize: 12, fontWeight: 700,
-              textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase',
-            }}>Demander un devis gratuit</a>
+          <div className="reveal" style={{ marginTop: 32 }}>
+            <a href="#contact" style={{ display: 'inline-block', background: 'var(--blue)', color: 'white', padding: '13px 24px', borderRadius: 4, fontSize: 12, fontWeight: 700, textDecoration: 'none', letterSpacing: '0.06em', textTransform: 'uppercase' }}>Demander un devis gratuit</a>
           </div>
         </div>
       </section>
 
       {/* CONTACT */}
-      <section id="contact" style={{ background: 'var(--bg-1)', padding: '80px 32px' }}>
-        <div style={{ maxWidth: 680, margin: '0 auto' }}>
-          <div className="reveal" style={{ marginBottom: 48 }}>
-            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10 }}>Contact</p>
-            <h2 style={{ fontSize: 'clamp(26px, 4vw, 48px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 14 }}>Votre devis</h2>
+      <section id="contact" style={{ background: 'var(--bg-1)', padding: '64px 20px' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto' }}>
+          <div className="reveal" style={{ marginBottom: 36 }}>
+            <p style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>Contact</p>
+            <h2 style={{ fontSize: 'clamp(24px, 5vw, 44px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 12 }}>Votre devis</h2>
             <p style={{ color: 'var(--t1)', fontSize: 14, lineHeight: 1.7 }}>Décrivez votre véhicule et la prestation souhaitée. Réponse garantie sous 24h.</p>
           </div>
 
           {formSent ? (
-            <div className="reveal visible" style={{ border: '1px solid rgba(34,197,94,0.3)', borderRadius: 4, padding: '40px 32px', textAlign: 'center' }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#22c55e', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 8 }}>Message envoyé</div>
+            <div className="reveal visible" style={{ border: '1px solid rgba(34,197,94,0.3)', borderRadius: 4, padding: '36px 24px', textAlign: 'center' }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#22c55e', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Message envoyé</div>
               <div style={{ color: 'var(--t1)', fontSize: 14 }}>Je vous recontacte dans les 24h.</div>
             </div>
           ) : (
-            <form ref={formRef} onSubmit={handleSubmit} className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <form ref={formRef} onSubmit={handleSubmit} className="reveal contact-form" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Nom *</label>
+                  <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 7, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Nom *</label>
                   <input className="field" type="text" placeholder="Votre nom" required />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Téléphone *</label>
+                  <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 7, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Téléphone *</label>
                   <input className="field" type="tel" placeholder="+41 76 000 00 00" required />
                 </div>
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Véhicule *</label>
+                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 7, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Véhicule *</label>
                 <input className="field" type="text" placeholder="Marque, modèle, année — ex: BMW M3 2019" required />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Service</label>
+                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 7, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Service</label>
                 <select className="field" style={{ appearance: 'none', cursor: 'pointer' }}>
                   <option value="">Sélectionner</option>
                   {SERVICES.map(s => <option key={s.num}>{s.title}</option>)}
@@ -399,29 +347,25 @@ export default function Home() {
                 </select>
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Message</label>
+                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: 'var(--t2)', marginBottom: 7, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Message</label>
                 <textarea className="field" placeholder="Décrivez le problème ou la prestation souhaitée…" rows={4} style={{ resize: 'vertical' }} />
               </div>
-              <button type="submit" style={{
-                background: 'var(--blue)', color: 'white', border: 'none', padding: '14px',
-                borderRadius: 4, fontSize: 12, fontWeight: 700, cursor: 'pointer',
-                letterSpacing: '0.08em', textTransform: 'uppercase', width: '100%', marginTop: 4,
-              }}>Envoyer →</button>
-              <p style={{ fontSize: 11, color: 'var(--t2)', textAlign: 'center', letterSpacing: '0.04em' }}>
-                DEVIS GRATUIT · SANS ENGAGEMENT · RÉPONSE SOUS 24H
-              </p>
+              <button type="submit" style={{ background: 'var(--blue)', color: 'white', border: 'none', padding: '15px', borderRadius: 4, fontSize: 12, fontWeight: 700, cursor: 'pointer', letterSpacing: '0.08em', textTransform: 'uppercase', width: '100%', marginTop: 4 }}>
+                Envoyer →
+              </button>
+              <p style={{ fontSize: 11, color: 'var(--t2)', textAlign: 'center', letterSpacing: '0.04em' }}>DEVIS GRATUIT · SANS ENGAGEMENT · RÉPONSE 24H</p>
             </form>
           )}
 
-          <div className="reveal" style={{ marginTop: 48, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)' }}>
+          <div className="reveal contact-info" style={{ marginTop: 40, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'var(--border)' }}>
             {[
-              { icon: '↗', label: 'Téléphone', value: '+41 XX XXX XX XX' },
-              { icon: '↗', label: 'Email', value: 'contact@seb-mecanique.ch' },
-              { icon: '↗', label: 'Localisation', value: 'Région Lausanne, VD' },
+              { label: 'Téléphone', value: '+41 XX XXX XX XX' },
+              { label: 'Email', value: 'contact@seb-mecanique.ch' },
+              { label: 'Localisation', value: 'Région Lausanne, VD' },
             ].map((c, i) => (
-              <div key={i} style={{ background: 'var(--bg-1)', padding: '20px 18px' }}>
-                <div style={{ fontSize: 10, color: 'var(--t2)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>{c.label}</div>
-                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--t1)' }}>{c.value}</div>
+              <div key={i} style={{ background: 'var(--bg-2)', padding: '16px 14px' }}>
+                <div style={{ fontSize: 10, color: 'var(--t2)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 5 }}>{c.label}</div>
+                <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--t1)', wordBreak: 'break-word' }}>{c.value}</div>
               </div>
             ))}
           </div>
@@ -429,10 +373,10 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '28px 32px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
+      <footer style={{ borderTop: '1px solid var(--border)', padding: '24px 20px' }}>
+        <div className="footer-inner" style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
           <SebLogo size={30} />
-          <div style={{ display: 'flex', gap: 28 }}>
+          <div className="footer-nav" style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
             {NAV.map(l => (
               <a key={l.href} href={l.href} style={{ color: 'var(--t2)', fontSize: 12, textDecoration: 'none', letterSpacing: '0.04em', transition: 'color 0.15s' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--t1)')}
@@ -445,14 +389,50 @@ export default function Home() {
       </footer>
 
       <style>{`
-        @media (min-width: 769px) { .nav-burger { display: none !important; } }
+        /* Desktop nav */
+        @media (min-width: 769px) {
+          .nav-burger { display: none !important; }
+        }
         @media (max-width: 768px) {
           .nav-desktop { display: none !important; }
-          .nav-burger { display: flex !important; }
         }
+
+        /* Hero mobile */
+        @media (max-width: 600px) {
+          .hero-section { padding: 0 20px 40px !important; }
+          .hero-bg-word { display: none; }
+          .hero-accent-line { display: none; }
+          .hero-stats {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 20px 0;
+          }
+          .hero-stats .stat-item { margin-left: 0 !important; }
+          .stat-0, .stat-1 { padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+          .stat-1 { border-right: none !important; }
+          .stat-2 { border-right: 1px solid var(--border) !important; padding-right: 16px; padding-left: 0 !important; }
+          .stat-3 { padding-left: 16px !important; border-right: none !important; }
+        }
+
+        /* Projects: 1 col on small phones */
+        @media (max-width: 480px) {
+          .projects-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* Contact form: 1 col on mobile */
         @media (max-width: 520px) {
-          form > div:first-child { grid-template-columns: 1fr !important; }
-          #contact > div > div:last-child { grid-template-columns: 1fr !important; }
+          .form-row { grid-template-columns: 1fr !important; }
+          .contact-info { grid-template-columns: 1fr !important; }
+        }
+
+        /* Footer: stack on mobile */
+        @media (max-width: 600px) {
+          .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+          .footer-nav { gap: 16px; }
+        }
+
+        /* Section headers: stack on mobile */
+        @media (max-width: 500px) {
+          .section-header { flex-direction: column !important; align-items: flex-start !important; }
         }
       `}</style>
     </>
